@@ -3,11 +3,13 @@ import { Feed } from 'feed';
 import path from 'path';
 import { createContentLoader } from 'vitepress';
 
+
+const hostname = 'https://blog.watering.top';
 const createRssFileZH = async (config) => {
 	const feed = new Feed({
 		title: 'water',
 		description:
-			'',
+			'water的开发日志',
 		id: hostname,
 		link: hostname,
 		language: 'zh-Hans',
