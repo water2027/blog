@@ -5,6 +5,7 @@
     "docs:preview": "vitepress preview"
   },
   "devDependencies": {
+    "vitepress": "^1.0.0-alpha.x",
     "vite-plugin-pwa": "^0.20.5"
   }
 }
