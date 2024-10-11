@@ -1,0 +1,17 @@
+a{
+    text-decoration: none !important;
+}
+
+html{
+    scroll-behavior: smooth;
+    --color-title: #3097ff;
+    --color-hover-title:#0180ff;
+    --color-background-tag:rgba(192, 192, 192, 0.5);
+    --color-border-tag:rgba(192, 192, 192, 0.8);
+}
+html.dark{
+    --color-title: #fed11c;
+    --color-hover-title:#ffbb00;
+    --color-background-tag:rgba(65, 63, 56, 0.5);
+    --color-border-tag:rgba(65, 63, 56, 0.8);
+}

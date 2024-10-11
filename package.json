@@ -5,7 +5,11 @@
     "docs:preview": "vitepress preview"
   },
   "devDependencies": {
-    "vitepress": "^1.0.0-alpha.x",
-    "vite-plugin-pwa": "^0.20.5"
+    "vite-plugin-pwa": "^0.20.5",
+    "vitepress": "^1.0.0-alpha.x"
+  },
+  "dependencies": {
+    "feed": "^4.2.2",
+    "markdown-it-mathjax3": "^4.3.2"
   }
 }
