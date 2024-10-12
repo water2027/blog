@@ -1,76 +1,77 @@
 import { defineConfig } from 'vitepress';
-import { VitePWA } from 'vite-plugin-pwa';
+import { withPwa } from '@vite-pwa/vitepress';
 
 import { createRssFileZH } from './theme/utils/rss';
 
 // https://vitepress.dev/reference/site-config
-export default defineConfig({
-	title: "water's blog",
-	description: 'blog',
-	lastUpdated: true,
-	cleanUrls: true,
-	ignoreDeadLinks: true,
-	buildEnd: (config) => {
-		createRssFileZH(config);
-	},
-	themeConfig: {
-		search: {
-			provider: 'local',
+export default withPwa(
+	defineConfig({
+		title: "water's blog",
+		description: 'blog',
+		lastUpdated: true,
+		cleanUrls: true,
+		ignoreDeadLinks: true,
+		buildEnd: (config) => {
+			createRssFileZH(config);
 		},
-		// https://vitepress.dev/reference/default-theme-config
-		appearance: true,
-		nav: [
-			{ text: '博客', link: '/' },
-			{ text: '归档', link: '/archive', activeMatch: '/archive' },
-			//{ text: '笔记', link: '/notes/', activeMatch: '/notes/' },
-			{ text: '关于', link: '/about', activeMatch: '/about' },
-		],
-		outlineTitle: '当前页面',
-		lastUpdatedText: '最近更新时间',
-		returnToTopLabel: '回到顶部',
-		sidebarMenuLabel: '目录',
-		darkModeSwitchLabel: '深色模式',
-		// sidebar: createSideBarZH(),
-		outline: [2, 4],
-		externalLinkIcon: true,
+		themeConfig: {
+			search: {
+				provider: 'local',
+			},
+			// https://vitepress.dev/reference/default-theme-config
+			appearance: true,
+			nav: [
+				{ text: '博客', link: '/' },
+				{ text: '归档', link: '/archive', activeMatch: '/archive' },
+				//{ text: '笔记', link: '/notes/', activeMatch: '/notes/' },
+				{ text: '关于', link: '/about', activeMatch: '/about' },
+			],
+			outlineTitle: '当前页面',
+			lastUpdatedText: '最近更新时间',
+			returnToTopLabel: '回到顶部',
+			sidebarMenuLabel: '目录',
+			darkModeSwitchLabel: '深色模式',
+			// sidebar: createSideBarZH(),
+			outline: [2, 4],
+			externalLinkIcon: true,
 
-		socialLinks: [{ icon: 'github', link: 'https://github.com/water2027' }],
-	},
-	markdown: {
-		math: true,
-	},
-	vite: {
-		plugins: [
-			VitePWA({
-				strategies: 'injectManifest',
-				srcDir: 'public',
-				filename: 'sw.js',
-				registerType: 'autoUpdate',
-				manifest: {
-					name: `water's blog`,
-					short_name: 'blog',
-					description: '日志',
-					theme_color: '#ffffff',
-					background_color: '#ffffff',
-					display: 'standalone',
-					start_url: '/',
-					icons: [
-						{
-							src: 'icon-192x192.png',
-							sizes: '192x192',
-							type: 'image/png',
-						},
-						{
-							src: 'icon-512x512.png',
-							sizes: '512x512',
-							type: 'image/png',
-						},
-					],
-				},
-				injectManifest:{
-					injectionPoint:undefined
-				}
-			}),
-		],
-	},
-});
+			socialLinks: [
+				{ icon: 'github', link: 'https://github.com/water2027' },
+			],
+		},
+		markdown: {
+			math: true,
+		},
+		pwa: {
+			outDir: '.vitepress/dist',
+			registerType: 'autoUpdate',
+			includeManifestIcons: false,
+			srcDir: 'public',
+			filename: 'sw.js',
+			manifest: {
+				name: `water's blog`,
+				short_name: 'blog',
+				description: '日志',
+				theme_color: '#ffffff',
+				background_color: '#ffffff',
+				display: 'standalone',
+				start_url: '/',
+				icons: [
+					{
+						src: 'icon-192x192.png',
+						sizes: '192x192',
+						type: 'image/png',
+					},
+					{
+						src: 'icon-512x512.png',
+						sizes: '512x512',
+						type: 'image/png',
+					},
+				],
+			},
+			injectManifest: {
+				injectionPoint: undefined,
+			},
+		},
+	}),
+);
