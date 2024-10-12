@@ -16,7 +16,10 @@ export default {
 
   enhanceApp({ app, router }) {
     if (typeof window !== 'undefined') {
-      import('virtual:pwa-register')
+      import('virtual:pwa-register').then(({registerSW})=>{
+        registerSW();
+        console.log("complete")
+      })
     }
   },
 };
