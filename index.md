@@ -1,10 +1,6 @@
 ---
 # https://vitepress.dev/reference/default-theme-home-page
 layout: doc
-editLink: false
-lastUpdated: false
-isNoComment: true
-isNoBackBtn: true
 ---
 
 <template v-for="post in curPosts" :key="post.url">
@@ -23,9 +19,9 @@ isNoBackBtn: true
     class="tag"
     >{{ tag }}</span
   >
+  <p v-if="post.desc">{{ post.desc }}</p>
 </template>
 
-<!-- <Pagination /> -->
 <div class="pagination-container">
   <WPagination
     v-model="current"

@@ -3,10 +3,10 @@ import { createContentLoader } from 'vitepress';
 export default createContentLoader('posts/**/*.md', {
 	transform(raw) {
 		return raw
-			.map(({ url, frontmatter, excerpt }) => ({
+			.map(({ url, frontmatter }) => ({
 				title: frontmatter.title,
 				url,
-				excerpt,
+				desc:frontmatter.desc||undefined,
 				date: formatDate(frontmatter.date),
 				tags: frontmatter.tags,
 			}))

@@ -14,18 +14,17 @@ export default defineConfig({
 		createRssFileZH(config);
 	},
 	themeConfig: {
+		search: {
+			provider: 'local',
+		},
 		// https://vitepress.dev/reference/default-theme-config
-		appearance: true,	
+		appearance: true,
 		nav: [
 			{ text: '博客', link: '/' },
 			{ text: '归档', link: '/archive', activeMatch: '/archive' },
 			//{ text: '笔记', link: '/notes/', activeMatch: '/notes/' },
 			{ text: '关于', link: '/about', activeMatch: '/about' },
 		],
-		docFooter: {
-			prev: '上一篇',
-			next: '下一篇',
-		},
 		outlineTitle: '当前页面',
 		lastUpdatedText: '最近更新时间',
 		returnToTopLabel: '回到顶部',

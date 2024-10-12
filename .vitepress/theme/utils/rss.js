@@ -26,7 +26,7 @@ const createRssFileZH = async (config) => {
 		Number(+new Date(b.frontmatter.date) - +new Date(a.frontmatter.date))
 	);
 
-	for (const { url, excerpt, html, frontmatter } of posts) {
+	for (const { url, desc, html, frontmatter } of posts) {
 		// 仅保留最近 5 篇文章
 		if (feed.items.length >= 5) {
 			break;
@@ -36,7 +36,7 @@ const createRssFileZH = async (config) => {
 			title: frontmatter.title,
 			id: `${hostname}${url}`,
 			link: `${hostname}${url}`,
-			description: excerpt,
+			description: desc,
 			content: html,
 			author: [
 				{

@@ -3,8 +3,9 @@
 		<button
 			@click="changePage(currentPage - 1)"
 			:disabled="currentPage === 1"
+			class="pageButton"
 		>
-			上一页
+			{{ '<' }}
 		</button>
 
 		<span
@@ -22,8 +23,9 @@
 		<button
 			@click="changePage(currentPage + 1)"
 			:disabled="currentPage === totalPages"
+			class="pageButton"
 		>
-			下一页
+			{{ '>' }}
 		</button>
 	</div>
 </template>
@@ -92,8 +94,9 @@ export default {
 
 button {
 	margin: 0 5px;
-	padding: 5px 10px;
+	padding: 3px 5px;
 	border: 1px solid #ccc;
+	border-radius: 5px;
 	background-color: #d0d0d0;
 	color: black;
 	cursor: pointer;
@@ -109,7 +112,15 @@ button:disabled {
 }
 
 button.active {
-	background-color: #007bff;
+	background-color: var(--color-title);
 	color: #fff;
+}
+
+.pageButton {
+	/* 去除背景 */
+	background-color: transparent;
+	color:#fff;
+	/* 去除边框 */
+	border: none;
 }
 </style>
