@@ -42,6 +42,9 @@ export default defineConfig({
 	vite: {
 		plugins: [
 			VitePWA({
+				strategies: 'injectManifest',
+				srcDir: 'public',
+				filename: 'sw.js',
 				registerType: 'autoUpdate',
 				manifest: {
 					name: `water's blog`,
@@ -64,9 +67,9 @@ export default defineConfig({
 						},
 					],
 				},
-				workbox: {
-					globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
-				},
+				injectManifest:{
+					injectionPoint:undefined
+				}
 			}),
 		],
 	},
