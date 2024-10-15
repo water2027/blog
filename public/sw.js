@@ -65,63 +65,52 @@ self.addEventListener('activate', (event) => {
 	event.waitUntil(Promise.all([cleanOldCaches(), updateCachePeriodically()]));
 });
 
-// 处理fetch事件
+async function networkFirst(request) {
+    try {
+        const networkResponse = await fetch(request);
+        if (networkResponse.ok) {
+            const cache = await caches.open(CACHE_NAME);
+            await cache.put(request, networkResponse.clone());
+        }
+        return networkResponse;
+    } catch (error) {
+        const cachedResponse = await caches.match(request);
+        if (cachedResponse) {
+            return cachedResponse;
+        }
+        return new Response('Network error happened', {
+            status: 408,
+            headers: { 'Content-Type': 'text/plain' },
+        });
+    }
+}
+
+async function cacheFirstWithRefresh(request) {
+    const cachedResponse = await caches.match(request);
+    const fetchPromise = fetch(request).then(async (networkResponse) => {
+        if (networkResponse.ok) {
+            const cache = await caches.open(CACHE_NAME);
+            await cache.put(request, networkResponse.clone());
+        }
+        return networkResponse;
+    }).catch(error => {
+        console.error('Fetching failed:', error);
+        return cachedResponse || new Response('Network error happened', {
+            status: 408,
+            headers: { 'Content-Type': 'text/plain' },
+        });
+    });
+    
+    return cachedResponse || fetchPromise;
+}
+
 self.addEventListener('fetch', (event) => {
-	if (
-		event.request.mode === 'navigate' ||
-		(event.request.method === 'GET' &&
-			event.request.headers.get('accept').includes('text/html'))
-	) {
-		event.respondWith(
-			fetch(event.request.url).catch((error) => {
-				// 如果网络请求发生错误，使用缓存
-				return caches
-					.match(event.request)
-					.then((response) => {
-						if (response) {
-							return response;
-						}
-						// 如果缓存也没有，那就试试离线页面吧
-						return caches.match(OFFLINE_PAGE);
-					})
-					.catch((err) => {
-						// 缓存也发生了问题
-						console.error('Error in cache lookup:', err);
-						return new Response('Offline page not available', {
-							status: 503,
-							statusText: 'Service Unavailable',
-						});
-					});
-			})
-		);
-	} else {
-		event.respondWith(
-			caches.match(event.request).then((response) => {
-				if (response) {
-					return response; // 如果在缓存中找到响应，则返回缓存的版本
-				}
-				return fetch(event.request).then((response) => {
-					// 检查是否是有效的响应
-					if (
-						!response ||
-						response.status !== 200 ||
-						response.type !== 'basic'
-					) {
-						return response;
-					}
-
-					// 克隆响应
-					const responseToCache = response.clone();
-
-					caches.open(CACHE_NAME).then((cache) => {
-						cache.put(event.request, responseToCache);
-					});
-
-					return response;
-				});
-			})
-		);
-	}
+    const url = new URL(event.request.url);
+    if (event.request.mode === 'navigate' || url.pathname === '/') {
+        event.respondWith(networkFirst(event.request));
+    } else {
+        event.respondWith(cacheFirstWithRefresh(event.request));
+    }
 });
 
 // 推送通知（如果您的博客支持）
