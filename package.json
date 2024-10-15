@@ -10,6 +10,7 @@
   "dependencies": {
     "@vite-pwa/vitepress": "^0.5.3",
     "feed": "^4.2.2",
-    "markdown-it-mathjax3": "^4.3.2"
+    "markdown-it-mathjax3": "^4.3.2",
+    "md-editor-v3": "^1.1.1"
   }
 }

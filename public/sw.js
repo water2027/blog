@@ -1,14 +1,49 @@
 const CACHE_NAME = 'blog-cache-v1';
 const OFFLINE_PAGE = '/offline.html';
 
+// 定期更新缓存（每7天）
+const CACHE_PERIOD = 7 * 24 * 60 * 60 * 1000; // 7天
+
 const STATIC_ASSETS = [
   '/',
   '/index.html',
   '/styles/main.css',
   '/scripts/main.js',
   '/images/logo.png',
-  OFFLINE_PAGE
+  '/offline.html'
 ];
+
+function cleanOldCaches() {
+  return caches.keys().then((cacheNames) => {
+    return Promise.all(
+      cacheNames.map((cacheName) => {
+        if (cacheName !== CACHE_NAME) {
+          console.log('Deleting old cache:', cacheName);
+          return caches.delete(cacheName);
+        }
+      })
+    );
+  });
+}
+
+function updateCachePeriodically() {
+  return caches.open(CACHE_NAME).then((cache) => {
+    return cache.keys().then((requests) => {
+      return Promise.all(
+        requests.map((request) => {
+          return cache.match(request).then((response) => {
+            if (response && response.headers.get('date')) {
+              const cacheDate = new Date(response.headers.get('date'));
+              if ((Date.now() - cacheDate.getTime()) > CACHE_PERIOD) {
+                return cache.delete(request);
+              }
+            }
+          });
+        })
+      );
+    });
+  });
+}
 
 // 安装 Service Worker
 self.addEventListener('install', (event) => {
@@ -24,16 +59,10 @@ self.addEventListener('install', (event) => {
 // 激活 Service Worker
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME) {
-            console.log('Deleting old cache:', cacheName);
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    })
+    Promise.all([
+      cleanOldCaches(),
+      updateCachePeriodically()
+    ])
   );
 });
 
@@ -71,46 +100,6 @@ self.addEventListener('fetch', (event) => {
               return response;
             });
         })
-    );
-  }
-});
-
-// 定期更新缓存（每7天）
-const CACHE_PERIOD = 7 * 24 * 60 * 60 * 1000; // 7天
-
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      cache.keys().then((requests) => {
-        requests.forEach((request) => {
-          cache.match(request).then((response) => {
-            if (response && response.headers.get('date')) {
-              const cacheDate = new Date(response.headers.get('date'));
-              if ((Date.now() - cacheDate.getTime()) > CACHE_PERIOD) {
-                cache.delete(request);
-              }
-            }
-          });
-        });
-      });
-    })
-  );
-});
-
-// 后台同步（如果支持）
-self.addEventListener('sync', (event) => {
-  if (event.tag === 'update-cache') {
-    event.waitUntil(
-      caches.open(CACHE_NAME).then((cache) => {
-        return fetch('/api/get-latest-posts')
-          .then((response) => response.json())
-          .then((posts) => {
-            const updatePromises = posts.map((post) => {
-              return cache.add(post.url);
-            });
-            return Promise.all(updatePromises);
-          });
-      })
     );
   }
 });
