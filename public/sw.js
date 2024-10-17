@@ -101,6 +101,10 @@ async function cacheFirstWithRefresh(request) {
 
 self.addEventListener('fetch', (event) => {
     const url = new URL(event.request.url);
+	if(event.request.url.startsWith('https://blog.watering.top/feed')){
+		event.respondWith(fetch(event.request));
+		return;
+	}
     if (event.request.mode === 'navigate' || url.pathname === '/' || event.request.url.startsWith('https://giscus.app/api')) {
         event.respondWith(networkFirst(event.request));
     } else if (event.request.method === 'GET') {
