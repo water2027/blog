@@ -52,11 +52,6 @@ export default withPwa(
 					},
 					link: '/feed.xml',
 				},
-				{
-					icon:{
-						svg:`<img style="border-radius:50%" src="/icon-512x512.png" />`
-					}
-				},
 			],
 		},
 		theme:{
