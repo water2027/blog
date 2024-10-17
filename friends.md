@@ -50,7 +50,8 @@ const friends = ref([
     gap:30px;
 }
 .friend{
-    height:300px;
+    min-height:300px;
+    height:auto;
     padding:10px;
     display:flex;
     flex-direction:row;
