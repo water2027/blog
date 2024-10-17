@@ -53,6 +53,9 @@ export default withPwa(
 				},
 			],
 		},
+		theme:{
+			custom:true
+		},
 		markdown: {
 			math: true,
 		},
