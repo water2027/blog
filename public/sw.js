@@ -106,21 +106,9 @@ async function cacheFirstWithRefresh(request) {
 
 self.addEventListener('fetch', (event) => {
     const url = new URL(event.request.url);
-    if (event.request.mode === 'navigate' || url.pathname === '/') {
+    if (event.request.mode === 'navigate' || url.pathname === '/'||event.request.url.startsWith('https://giscus.app/api')) {
         event.respondWith(networkFirst(event.request));
     } else {
         event.respondWith(cacheFirstWithRefresh(event.request));
     }
-});
-
-// 推送通知（如果您的博客支持）
-self.addEventListener('push', (event) => {
-	const data = event.data.json();
-	const options = {
-		body: data.body,
-		icon: '/images/notification-icon.png',
-		badge: '/images/notification-badge.png',
-	};
-
-	event.waitUntil(self.registration.showNotification(data.title, options));
 });
