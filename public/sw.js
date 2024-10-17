@@ -67,38 +67,33 @@ self.addEventListener('activate', (event) => {
 
 async function networkFirst(request) {
     try {
-        const networkResponse = await fetch(request);
-        if (networkResponse.ok) {
+        const networkResponse = await fetch(request, { redirect: 'follow' });
+        if (networkResponse.ok || networkResponse.type === 'opaqueredirect') {
             const cache = await caches.open(CACHE_NAME);
             await cache.put(request, networkResponse.clone());
         }
         return networkResponse;
     } catch (error) {
+        console.error('Network request failed:', error);
         const cachedResponse = await caches.match(request);
         if (cachedResponse) {
             return cachedResponse;
         }
-        return new Response('Network error happened', {
-            status: 408,
-            headers: { 'Content-Type': 'text/plain' },
-        });
+        return caches.match(OFFLINE_PAGE);
     }
 }
 
 async function cacheFirstWithRefresh(request) {
     const cachedResponse = await caches.match(request);
-    const fetchPromise = fetch(request).then(async (networkResponse) => {
-        if (networkResponse.ok) {
+    const fetchPromise = fetch(request, { redirect: 'follow' }).then(async (networkResponse) => {
+        if (networkResponse.ok || networkResponse.type === 'opaqueredirect') {
             const cache = await caches.open(CACHE_NAME);
             await cache.put(request, networkResponse.clone());
         }
         return networkResponse;
     }).catch(error => {
         console.error('Fetching failed:', error);
-        return cachedResponse || new Response('Network error happened', {
-            status: 408,
-            headers: { 'Content-Type': 'text/plain' },
-        });
+        return cachedResponse || caches.match(OFFLINE_PAGE);
     });
     
     return cachedResponse || fetchPromise;
@@ -106,9 +101,11 @@ async function cacheFirstWithRefresh(request) {
 
 self.addEventListener('fetch', (event) => {
     const url = new URL(event.request.url);
-    if (event.request.mode === 'navigate' || url.pathname === '/'||event.request.url.startsWith('https://giscus.app/api')) {
+    if (event.request.mode === 'navigate' || url.pathname === '/' || event.request.url.startsWith('https://giscus.app/api')) {
         event.respondWith(networkFirst(event.request));
-    } else {
+    } else if (event.request.method === 'GET') {
         event.respondWith(cacheFirstWithRefresh(event.request));
+    } else {
+        event.respondWith(fetch(event.request));
     }
 });
