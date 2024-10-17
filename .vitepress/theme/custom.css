@@ -1,3 +1,7 @@
+*{
+    transition: all 0.3s;
+}
+
 a{
     text-decoration: none !important;
 }
@@ -8,10 +12,22 @@ html{
     --color-hover-title:#0180ff;
     --color-background-tag:rgba(192, 192, 192, 0.5);
     --color-border-tag:rgba(192, 192, 192, 0.8);
+
+    --color-card-background: #fff;
+    --color-box-shadow: rgba(0, 0, 0, 0.24);
+    --color-box-shadow-hover: rgba(0, 0, 0, 0.5);
+
+    --color-name: linear-gradient(90deg, #3097ff 0%, #0069d3 100%);
 }
 html.dark{
     --color-title: #fed11c;
     --color-hover-title:#ffbb00;
     --color-background-tag:rgba(65, 63, 56, 0.5);
     --color-border-tag:rgba(65, 63, 56, 0.8);
+
+    --color-card-background: #202020;
+    --color-box-shadow: rgba(164, 164, 164, 0.24);
+    --color-box-shadow-hover: rgba(164, 164, 164, 0.5);
+
+    --color-name: linear-gradient(90deg, #ffda45 0%, #e4a700 100%);
 }

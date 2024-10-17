@@ -2,6 +2,7 @@ import { h } from "vue";
 import Theme from 'vitepress/theme-without-fonts'; // https://vitepress.dev/zh/guide/extending-default-theme#using-different-fonts
 
 import BlogComment from './components/BlogComment.vue';
+import Avatar from "./components/Avatar.vue";
 
 import "./style.css";
 import "./custom.css";
@@ -12,6 +13,7 @@ export default {
   Layout() {
     return h(Theme.Layout, null, {
       // https://vitepress.dev/guide/extending-default-theme#layout-slots
+      "aside-top": () => h(Avatar),
       "doc-after": () => h(BlogComment),
     });
   },

@@ -26,7 +26,7 @@ const { isDark } = useData();
 const theme = computed(() => (isDark.value ? "noborder_dark" : "noborder_light"));
 const route = useRoute();
 
-const isMain = computed(()=>route.path==='/')
+const isMain = computed(()=>{return route.path==='/'||route.path==='/friends'})
 
 const showComment = ref(true);
 watch(
