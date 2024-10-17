@@ -10,7 +10,7 @@ const friends = ref([
     {
         id:1,
         name:'Jerry',
-        link: 'https://jerrylingj.top/',
+        link: 'https://jerrylingj.top',
         description: 'qwq',
         avatar: 'https://sse-market-source-1320172928.cos.ap-guangzhou.myqcloud.com/src/images/uploads/1729130790695993497_头像1.jpg',
     },
@@ -21,6 +21,13 @@ const friends = ref([
         description: 'hello~',
         avatar: 'https://sse-market-source-1320172928.cos.ap-guangzhou.myqcloud.com/src/images/uploads/1728918801765528128_%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20241014222719.jpg'
     },
+    {
+        id:3,
+        name:'thinkerhui',
+        link:'https://thinkerhui.site',
+        description:'MBTI是ENFP。热爱AI等前沿技术，喜欢倾听用户反馈，不断迭代升级项目。掌握初级Web全栈开发，擅长前端开发。有人工智能相关科研经历。',
+        avatar:'https://sse-market-source-1320172928.cos.ap-guangzhou.myqcloud.com/src/images/resized/1700193342453573764_mmexport1699801185607_[B@32573fa.jpg'
+    }
 ])
 
 </script>
