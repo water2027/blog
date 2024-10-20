@@ -1,6 +1,6 @@
 <template>
     <div class="card-root">
-        <img src="/icon-512x512.png" alt="avatar">
+        <img src="/icon-512x512.webp" alt="avatar">
         <span>Water</span>
         <p>Just do it</p>
     </div>
