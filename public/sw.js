@@ -102,7 +102,7 @@ self.addEventListener('fetch', (event) => {
 		event.respondWith(fetch(event.request));
 		return;
 	}
-    if (event.request.mode === 'navigate' || url.pathname === '/' || event.request.url.startsWith('https://giscus.app/api')|| url.pathname.startsWith('/assets/chunks/posts.data')) {
+    if (event.request.mode === 'navigate' || url.pathname === '/' || event.request.url.startsWith('https://giscus.app/api')|| event.request.url.startsWith('https://blog.watering.top/assets/chunks/posts.data.')) {
         event.respondWith(networkFirst(event.request));
     } else if (event.request.method === 'GET') {
         event.respondWith(cacheFirstWithRefresh(event.request));
