@@ -99,10 +99,11 @@ async function cacheFirstWithRefresh(request) {
 self.addEventListener('fetch', (event) => {
     const url = new URL(event.request.url);
 	if(event.request.url.startsWith('https://blog.watering.top/feed')){
+		console.log("network first")
 		event.respondWith(fetch(event.request));
 		return;
 	}
-    if (event.request.mode === 'navigate' || url.pathname === '/' || event.request.url.startsWith('https://giscus.app/api')|| event.request.url.startsWith('https://blog.watering.top/assets/chunks/posts.data.')) {
+    if (event.request.mode === 'navigate' || url.pathname === '/' || event.request.url.startsWith('https://giscus.app/api')|| /^https:\/\/blog\.watering\.top\/assets\/chunks\/posts\.data/.test(event.request.url)) {
         event.respondWith(networkFirst(event.request));
     } else if (event.request.method === 'GET') {
         event.respondWith(cacheFirstWithRefresh(event.request));
