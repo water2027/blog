@@ -7,9 +7,6 @@ const CACHE_PERIOD = 7 * 24 * 60 * 60 * 1000; // 7天
 const STATIC_ASSETS = [
 	'/',
 	'/index.html',
-	'/styles/main.css',
-	'/scripts/main.js',
-	'/images/logo.png',
 	'/offline.html',
 ];
 
@@ -105,7 +102,7 @@ self.addEventListener('fetch', (event) => {
 		event.respondWith(fetch(event.request));
 		return;
 	}
-    if (event.request.mode === 'navigate' || url.pathname === '/' || event.request.url.startsWith('https://giscus.app/api')) {
+    if (event.request.mode === 'navigate' || url.pathname === '/' || event.request.url.startsWith('https://giscus.app/api')|| url.pathname.startsWith('/assets/chunks/posts.data')) {
         event.respondWith(networkFirst(event.request));
     } else if (event.request.method === 'GET') {
         event.respondWith(cacheFirstWithRefresh(event.request));

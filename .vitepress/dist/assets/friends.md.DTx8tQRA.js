@@ -1,1 +1,0 @@
-import{_ as e,c as t,o as a}from"./chunks/framework.CigXQ8BC.js";const _=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"friends.md","filePath":"friends.md","lastUpdated":null}'),r={name:"friends.md"};function s(n,o,d,c,i,f){return a(),t("div")}const l=e(r,[["render",s]]);export{_ as __pageData,l as default};
