@@ -10,6 +10,7 @@ date: 2024-10-24
 在写vue3页面的时候遇到了大量组件需要传递类似/相同的函数，最后选择了自定义事件+事件托管解决
 ### 前言   
 在封装组件的时候遇到了一个问题，大致如下：
+::: details 点击查看代码
 ```vue
 <template>
   <div
@@ -58,6 +59,7 @@ date: 2024-10-24
   </div>
 </template>
 ```
+::: 
 其中这些handler基本上是这样的：
 ```js
 const commentHandler = async (callback)=>{
@@ -109,7 +111,8 @@ element.addEventListener('commentHandle',(event)=>{
 ```
 ### 简化代码
 有了这些东西，那我的代码就可以简化很多了。
-```vue
+::: code-group
+```vue [PostDetailView.vue]
 <!-- PostDetailView.vue -->
 <template>
   <div
@@ -165,7 +168,7 @@ const commentHandler = async (event)=>{
 }
 </script>
 ```
-```vue
+```vue [card.vue]
 <!-- 子组件 -->
 <script setup> 
 const handler = (type)=>{
@@ -190,4 +193,5 @@ const handler = (type)=>{
 }
 </script>
 ```
+:::
 这样就避免了大量props的传递，节省了一些性能吧。       

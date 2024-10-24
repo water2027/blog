@@ -13,9 +13,9 @@ const createRssFileZH = async (config) => {
 		id: hostname,
 		link: hostname,
 		language: 'zh-Hans',
-		image: '',
-		favicon: ``,
-		copyright: '',
+		image: `${hostname}/icon-512x512.webp`,
+		favicon: `${hostname}/favicon.ico`,
+		copyright: 'Copyright (c) 2024-present, Water',
 	});
 
 	const posts = await createContentLoader('posts/**/*.md', {
@@ -26,7 +26,7 @@ const createRssFileZH = async (config) => {
 		Number(+new Date(b.frontmatter.date) - +new Date(a.frontmatter.date))
 	);
 
-	for (const { url, desc, html, frontmatter } of posts) {
+	for (const { url, html, frontmatter } of posts) {
 		// 仅保留最近 5 篇文章
 		if (feed.items.length >= 5) {
 			break;
@@ -36,12 +36,12 @@ const createRssFileZH = async (config) => {
 			title: frontmatter.title,
 			id: `${hostname}${url}`,
 			link: `${hostname}${url}`,
-			description: desc,
+			description: frontmatter.desc,
 			content: html,
 			author: [
 				{
 					name: 'water',
-					email: 'qstxdy@gmail.com',
+					email: 'water2027@watering.top',
 					link: 'https://blog.watering.top',
 				},
 			],

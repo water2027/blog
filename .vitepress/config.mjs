@@ -63,7 +63,6 @@ export default withPwa(
 		},
 		markdown: {
 			math: true,
-			lineNumbers:true,
 			image:{
 				lazyLoading:true
 			}
