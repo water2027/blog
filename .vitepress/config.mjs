@@ -54,11 +54,19 @@ export default withPwa(
 				},
 			],
 		},
+		sitemap:{
+			hostname:'https://blog.watering.top/',
+			lastmodDateOnly:true
+		},
 		theme:{
 			custom:true
 		},
 		markdown: {
 			math: true,
+			lineNumbers:true,
+			image:{
+				lazyLoading:true
+			}
 		},
 		pwa: {
 			outDir: '.vitepress/dist',
